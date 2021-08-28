@@ -134,3 +134,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
+
+# mensagens
+from django.contrib.messages import constants
+
+MESSAGE_TAGS={
+    constants.ERROR: 'alert-danger',
+    constants.WARNING: 'alert-warning',
+    constants.DEBUG: 'alert-info',
+    constants.SUCCESS: 'alert-sucess',
+    constants.INFO: 'alert-info',
+}
