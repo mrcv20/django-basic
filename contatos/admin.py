@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Category, Contact
-
+from .models import Categoria, Contato
 # Register your models here.
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
@@ -25,5 +24,5 @@ class ContactAdmin(admin.ModelAdmin):
     search_fields = ('nome', 'sobrenome')
     list_editable = ('telefone', 'mostrar')
 
-admin.site.register(Category)
-admin.site.register(Contact, ContactAdmin)
+admin.site.register(Categoria)
+admin.site.register(Contato, ContactAdmin)

@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
-from .models import Contact
+from .models import Contato
 from django.core.paginator import Paginator
 from django.db.models import Q, Value
 from django.db.models.functions import Concat
@@ -8,8 +8,7 @@ from django.contrib import messages
 
 # Create your views here.
 def index(request):
-    messages.add_message(request, messages.ERROR, "Ocorreu um ERROR!")
-    contatos = Contact.objects.order_by('id').filter(
+    contatos = Contato.objects.order_by('id').filter(
         mostrar=True
     )
     paginator = Paginator(contatos, 2)
@@ -23,17 +22,26 @@ def index(request):
 def ver_contato(request, contato_id):
 
     # contato = Contact.objects.get(id=contato_id)
-    contato = get_object_or_404(Contact, id=contato_id)
+    contato = get_object_or_404(Contato, id=contato_id)
     return render(request, 'contatos/ver_contato.html', {
         'contato': contato
     })
     
 def busca(request):
     termo = request.GET.get('termo')
+
+    if termo is None or not termo:
+        messages.add_message(
+            request,
+            messages.ERROR,
+            'Campo termo não pode ficar vazio'
+        )
+        return redirect('index')
+
     campos = Concat('nome', Value(''), 'sobrenome')
 
     print(termo)
-    contatos = Contact.objects.order_by('-id').filter(
+    contatos = Contato.objects.order_by('-id').filter(
         Q(nome__icontains=termo) | Q(sobrenome__icontains=termo),
         mostrar=True
     )
